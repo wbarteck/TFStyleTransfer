@@ -1,4 +1,6 @@
-FROM tensorflow/tensorflow:latest-py3
+FROM python:3.6
+
+RUN pip install keras tensorflow numpy Pillow
 
 COPY ./requirements.txt /requirements.txt
 
