@@ -1,0 +1,2 @@
+ipython==7.6.1
+Pillow==5.4.1
