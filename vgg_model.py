@@ -16,6 +16,10 @@ config.intra_op_parallelism_threads = 1
 # set_session(tf.Session(config=config))
 session = tf.Session(config=config)
 
+CONTENT_LAYERS = ('relu4_2', 'relu5_2')
+STYLE_LAYERS = ('relu1_1', 'relu2_1', 'relu3_1', 'relu4_1', 'relu5_1')
+
+
 VGG19_LAYERS = (
     'conv1_1', 'relu1_1', 'conv1_2', 'relu1_2', 'pool1',
 
