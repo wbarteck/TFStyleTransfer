@@ -8,7 +8,6 @@ import tensorflow as tf
 
 import vgg_model as vgg
 
-# https://github.com/anishathalye/neural-style
 
 CONTENT_LAYERS = ('relu4_2', 'relu5_2')
 STYLE_LAYERS = ('relu1_1', 'relu2_1', 'relu3_1', 'relu4_1', 'relu5_1')
@@ -33,6 +32,7 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
             content_weight, content_weight_blend, style_weight, style_layer_weight_exp, style_blend_weights, tv_weight,
             learning_rate, beta1, beta2, epsilon, pooling,
             print_iterations=None, checkpoint_iterations=None):
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     """
     Stylize images.
     This function yields tuples (iteration, image, loss_vals) at every
@@ -65,7 +65,7 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
 
     # compute content features in feedforward mode
     g = tf.Graph()
-    with g.as_default(), g.device('/cpu:0'), tf.Session() as sess:
+    with g.as_default(), tf.Session() as sess:
         image = tf.placeholder('float', shape=shape)
         net = vgg.net_preloaded(vgg_weights, image, pooling)
         content_pre = np.array([vgg.preprocess(content, vgg_mean_pixel)])
@@ -76,7 +76,7 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
     # compute style features in feedforward mode
     for i in range(len(styles)):
         g = tf.Graph()
-        with g.as_default(), g.device('/cpu:0'), tf.Session() as sess:
+        with g.as_default(), tf.Session() as sess:
             image = tf.placeholder('float', shape=style_shapes[i])
             net = vgg.net_preloaded(vgg_weights, image, pooling)
             style_pre = np.array([vgg.preprocess(styles[i], vgg_mean_pixel)])

@@ -13,7 +13,6 @@ from scipy import misc
 
 from style import stylize
 
-
 # default arguments
 CONTENT_WEIGHT = 5e0
 CONTENT_WEIGHT_BLEND = 1
@@ -140,7 +139,7 @@ def fmt_imsave(fmt, iteration):
 
 
 def main():
-
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     # https://stackoverflow.com/a/42121886
     key = 'TF_CPP_MIN_LOG_LEVEL'
     if key not in os.environ:
@@ -236,6 +235,7 @@ def main():
         print_iterations=options.print_iterations,
         checkpoint_iterations=options.checkpoint_iterations,
     ):
+        print(image)
         if (image is not None) and (options.checkpoint_output is not None):
             imsave(fmt_imsave(options.checkpoint_output, iteration), image)
         if (loss_vals is not None) \
